@@ -114,6 +114,14 @@ app.post("/api/admin/change-credentials",adminOnly,(req,res)=>{
  try{db.prepare("UPDATE admins SET login=?,password_hash=? WHERE id=?").run(login,bcrypt.hashSync(pass,12),a.id);req.session.adminLogin=login;res.json({success:true});}
  catch(e){res.status(409).json({error:"Этот логин уже занят"});}
 });
+app.get("/api/admin/export",adminOnly,(req,res)=>{
+ const tables=["users","orders","topups","reviews","admins","balance_history"];
+ const data={exportedAt:now(),version:1,tables:{}};
+ for(const table of tables) data.tables[table]=db.prepare("SELECT * FROM "+table).all();
+ res.setHeader("Content-Type","application/json; charset=utf-8");
+ res.setHeader("Content-Disposition",'attachment; filename="astokzi-backup.json"');
+ res.json(data);
+});
 app.get("/api/admin/dashboard",adminOnly,(req,res)=>res.json({
  orders:db.prepare("SELECT COUNT(*) n FROM orders").get().n,
  users:db.prepare("SELECT COUNT(*) n FROM users").get().n,
