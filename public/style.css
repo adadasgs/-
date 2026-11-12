@@ -13,6 +13,6 @@
 @media(max-width:650px){.admin-shortcut{display:none!important}.about-stats{gap:20px}.about-contact{align-items:flex-start;flex-direction:column}}
 
 
-/* Mobile navigation: keep every existing section and add Profile/Orders */
-.mobile-tabs{display:none}
-@media(max-width:650px){body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}.mobile-tabs{position:fixed;z-index:40;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;padding:7px 3px calc(7px + env(safe-area-inset-bottom));background:rgba(12,14,19,.97);border-top:1px solid rgba(255,255,255,.12);backdrop-filter:blur(18px)}.mobile-tabs button{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:0;background:transparent;color:#9298a3;font-size:9px;white-space:nowrap;padding:4px 0}.mobile-tabs button span{font-size:17px;line-height:1.2}.mobile-tabs button:active,.mobile-tabs button:hover{color:#fff}.toast{bottom:calc(82px + env(safe-area-inset-bottom))}}
+
+@media(min-width:651px){.mobile-menu-item{display:none!important}}
+@media(max-width:650px){.mobile-menu-item{display:block!important}}
