@@ -73,16 +73,16 @@ app.get("/api/my-orders",(req,res)=>res.json(db.prepare("SELECT * FROM orders WH
 app.post("/api/orders",(req,res)=>{
  const id=userId(req), items=Array.isArray(req.body.items)?req.body.items:[];
  if(!items.length||items.length>30) return res.status(400).json({error:"Корзина пуста или слишком много позиций"});
- const method=["rub","stars"].includes(req.body.paymentMethod)?req.body.paymentMethod:"rub", comment=clean(req.body.comment,500), ids=[];
+ const allowedMethods=["rub","card","stars","manager_stars","manager_crypto"], method=allowedMethods.includes(req.body.paymentMethod)?req.body.paymentMethod:"card", comment=clean(req.body.comment,500), ids=[];
  const insert=db.prepare("INSERT INTO orders(user_id,product_id,product_name,quantity,unit_price,total,payment_method,comment,status,created_at) VALUES(?,?,?,?,?,?,?,?,'pending',?)");
  try {
   db.transaction(()=>items.forEach(item=>{
    const p=products.find(x=>x.id===clean(item.productId,50)); if(!p) throw new Error("Неизвестный товар");
-   const q=Math.max(1,Math.min(99,Math.floor(Number(item.quantity)||1))), price=method==="stars"?p.stars:p.price;
+   const q=Math.max(1,Math.min(99,Math.floor(Number(item.quantity)||1))), price=(method==="stars"||method==="manager_stars")?p.stars:p.price;
    ids.push(Number(insert.run(id,p.id,p.name,q,price,price*q,method,comment,now()).lastInsertRowid));
   }))();
  } catch(e){return res.status(400).json({error:e.message});}
- res.json({success:true,ids,message:"Заявка создана и ожидает обработки. Онлайн-оплата пока не подключена."});
+ const message=method==="manager_stars"?"Заявка создана. Для оплаты Telegram Stars свяжитесь с менеджером.":method==="manager_crypto"?"Заявка создана. Для оплаты криптовалютой свяжитесь с менеджером.":"Заявка создана. Оплата картой проводится переводом вручную; после перевода отправьте чек менеджеру.";res.json({success:true,ids,message});
 });
 app.post("/api/topups",(req,res)=>{
  const id=userId(req), amount=Number(req.body.amount), image=String(req.body.screenshot||"");
