@@ -39,7 +39,6 @@ document.addEventListener("click",e=>{
  if(e.target.closest("#cartOpen")){modal("cartModal");return;}
  if(e.target.closest("#goCheckout")){openCheckout();return;}
  if(e.target.closest("#confirmCheckout")){checkout();return;}
- if(e.target.closest("#openOrderManager")){window.open("https://t.me/astoxz","_blank","noopener");return;}
  if(e.target.closest("#submitTopup")){submitTopup();return;}
  if(e.target.closest("#refreshProfile")){loadProfile();return;}
  if(e.target.closest("#refreshOrders")){loadOrders();return;}
