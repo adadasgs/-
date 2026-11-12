@@ -16,3 +16,6 @@
 
 @media(min-width:651px){.mobile-menu-item{display:none!important}}
 @media(max-width:650px){.mobile-menu-item{display:block!important}}
+
+.order-card{padding:16px 0;border-bottom:1px solid var(--line)}.order-card:last-child{border-bottom:0}.order-paid{display:inline-flex;margin:8px 0 2px;padding:6px 9px;border-radius:7px;background:rgba(91,190,132,.12);color:#8ed6a8;font-size:11px;font-weight:700}.order-manager-note{margin:5px 0 10px}.order-open-btn{padding:9px 13px}.order-card .order-row{padding-top:8px}
+@media(max-width:650px){.order-row{align-items:flex-start}.order-row>div:last-child{text-align:right}.order-card{padding:14px 0}}
